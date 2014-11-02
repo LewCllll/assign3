@@ -28,6 +28,10 @@ final int SLOT_DEAD = 5;
 
 PImage bomb, flag, cross ,bg;
 
+//mouseclick
+int mouseClick = totalSlots;
+
+
 void setup(){
   size (640,480);
   textFont(createFont("font/Square_One.ttf", 20));
@@ -67,7 +71,9 @@ void draw(){
           break;
     case GAME_RUN:
           //---------------- put you code here ----
-
+if(mouseClick == - (16-bombCount) ){
+  gameState = GAME_WIN;
+}
           // -----------------------------------
           break;
     case GAME_WIN:
@@ -92,11 +98,20 @@ void setBombs(){
   // initial slot
   for (int col=0; col < nSlot; col++){
     for (int row=0; row < nSlot; row++){
-      slot[col][row] = SLOT_OFF;
+      slot[col][row] = 0;
     }
   }
   // -------------- put your code here ---------
   // randomly set bombs
+
+   for (int col=0; col < nSlot; col++){
+    for (int row=0; row < nSlot; row++){
+      slot[col][row] = 1;
+      }
+    }
+    for (int i=0; i<bombCount; i++){
+      slot[(int)random(0,4)][(int)random(0,4)] = 2;
+    }
 
   // ---------------------------------------
 }
@@ -107,6 +122,7 @@ void drawEmptySlots(){
   for (int col=0; col < nSlot; col++){
     for (int row=0; row < nSlot; row++){
         showSlot(col, row, SLOT_OFF);
+      
     }
   }
 }
@@ -169,15 +185,27 @@ void mouseClicked(){
 }
 
 void mousePressed(){
-  if ( gameState == GAME_RUN &&
-       mouseX >= ix && mouseX <= ix+sideLength && 
-       mouseY >= iy && mouseY <= iy+sideLength){
-    
+  int xGrid = (mouseX - ix)/SLOT_SIZE;
+  int yGrid = (mouseY - iy)/SLOT_SIZE;
+  
+  if (gameState == GAME_RUN && mouseX >= ix && mouseX <= ix+sideLength && mouseY >= iy && mouseY <= iy+sideLength){
+         if(slot[xGrid][yGrid] == 1){
+           showSlot(xGrid, yGrid, SLOT_SAFE);
+           mouseClick = mouseClick - 1;
+           println(mouseClick);
+         }else if(slot[xGrid][yGrid] == 2){
+           showSlot(xGrid, yGrid, SLOT_BOMB);
+           //gameState = GAME_LOSE;
+         }
+  }
+
+
+     
+ 
     // --------------- put you code here -------     
 
     // -------------------------
     
-  }
 }
 
 // press enter to start
