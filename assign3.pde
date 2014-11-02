@@ -192,6 +192,7 @@ void mousePressed(){
          if(slot[xGrid][yGrid] == 1){
            showSlot(xGrid, yGrid, SLOT_SAFE);
            mouseClick = mouseClick - 1;
+           slot[xGrid][yGrid] = 0;
            println(mouseClick);
          }else if(slot[xGrid][yGrid] == 2){
            showSlot(xGrid, yGrid, SLOT_BOMB);
