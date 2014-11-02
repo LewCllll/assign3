@@ -195,7 +195,7 @@ void mousePressed(){
            println(mouseClick);
          }else if(slot[xGrid][yGrid] == 2){
            showSlot(xGrid, yGrid, SLOT_BOMB);
-           //gameState = GAME_LOSE;
+           gameState = GAME_LOSE;
          }
   }
 
