@@ -31,6 +31,7 @@ PImage bomb, flag, cross ,bg;
 //mouseclick
 int mouseClick = totalSlots;
 
+//Requirement B
 int count = 0;
 
 void setup(){
@@ -128,9 +129,21 @@ void setBombs(){
       slot[col][row] = 1;
       }
     }
-    for (int i=0; i<bombCount; i++){
-      slot[(int)random(0,4)][(int)random(0,4)] = 2;
-    }
+    
+          
+    int counterBomb = 0;
+    int xR = (int)random(0,4);
+    int yR = (int)random(0,4);
+
+
+    while(counterBomb < bombCount){
+      if(slot[xR][yR] != 2){
+    slot[xR][yR] = 2;
+    counterBomb++;
+      }
+    xR = (int)random(0,4);
+    yR = (int)random(0,4);
+    }  
 
   // ---------------------------------------
 }
@@ -191,8 +204,9 @@ void mouseClicked(){
        // select 1~9
        //int num = int(mouseX / (float)width*9) + 1;
        int num = (int)map(mouseX, 0, width, 0, 9) + 1;
-       // println (num);
+       //println (num);
        bombCount = num;
+       //println(bombCount);
        
        // start the game
        clickCount = 0;
