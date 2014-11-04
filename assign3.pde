@@ -31,6 +31,7 @@ PImage bomb, flag, cross ,bg;
 //mouseclick
 int mouseClick = totalSlots;
 
+int count = 0;
 
 void setup(){
   size (640,480);
@@ -70,11 +71,15 @@ void draw(){
           // check mouseClicked() to start the game
           break;
     case GAME_RUN:
-          //---------------- put you code here ----
+          
 if(mouseClick == - (16-bombCount) ){
   gameState = GAME_WIN;
 }
-          // -----------------------------------
+
+if (count >0){
+  count = 0;
+}
+         
           break;
     case GAME_WIN:
           textSize(18);
@@ -90,9 +95,23 @@ if(mouseClick == - (16-bombCount) ){
 }
 
 int countNeighborBombs(int col,int row){
-  // -------------- Requirement B ---------
-  return 0;
+
+int xB = (mouseX - ix)/SLOT_SIZE;
+int yB = (mouseY - iy)/SLOT_SIZE;
+
+for(int xx = xB - 1; xx <= xB +1; xx++){
+  for(int yy = yB -1; yy <= yB +1; yy++){
+    if(xx>=0 && yy>=0 && xx<4 && yy<4){
+      if(slot[xx][yy] == 2){
+            count++;
+      }
+    }
+  }
 }
+//println(count);
+return count ;
+}
+
 
 void setBombs(){
   // initial slot
@@ -193,20 +212,13 @@ void mousePressed(){
            showSlot(xGrid, yGrid, SLOT_SAFE);
            mouseClick = mouseClick - 1;
            slot[xGrid][yGrid] = 0;
-           println(mouseClick);
+           //println(mouseClick);
          }else if(slot[xGrid][yGrid] == 2){
            showSlot(xGrid, yGrid, SLOT_BOMB);
            gameState = GAME_LOSE;
          }
   }
 
-
-     
- 
-    // --------------- put you code here -------     
-
-    // -------------------------
-    
 }
 
 // press enter to start
